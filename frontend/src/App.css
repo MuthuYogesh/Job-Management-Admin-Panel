@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+/* Define your design tokens with @theme */
+@theme {
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-muted-600: var(--muted-600);
+  --color-light-grey: var(--lightGrey);
+  --color-fontgrey1: var(--font-color2);
+  --color-fontblack1: var(--font-color1);
+  --color-fontgrey2: var(--font-color3);
+
+  --font-satoshi: "Satoshi", Inter, system-ui, sans-serif;
+  --font-weight-satoshi-med: 500;
+  --font-weight-satoshi-bold: 600;
+  --font-weight-satoshi-xbold: 700;
+
+  --shadow-pill-lg: 0 0 20px var(--pill-shadow);
+  --radius-pill: 122px;
+}
+
+/* Your custom CSS variables from Figma */
+:root {
+  --brand-500: #6f42c1;
+  --brand-600: #5a2ea0;
+  --muted-600: #6b7280;
+  --lightGrey: #eaeaea;
+  --pill-shadow: rgba(127, 127, 127, 0.15);
+  --font-color2: #686868;
+  --font-color1: #303030;
+  --font-color3: #5a5a5a;
+}
+
+/* Hide default datalist arrow in Chrome, Edge, Safari */
+.custom-datalist-arrow::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  display: none;
+  pointer-events: none;
+}
+
+/* Hide default arrow in Firefox */
+.custom-datalist-arrow::-webkit-input-placeholder {
+  color: inherit;
+}
+.custom-datalist-arrow::-moz-placeholder {
+  color: inherit;
+}
+.custom-datalist-arrow:-ms-input-placeholder {
+  color: inherit;
+}
+.custom-datalist-arrow::placeholder {
+  color: inherit;
+}
+.custom-datalist-arrow::-ms-expand {
+  display: none;
+}
+
+/* ensure brand apply button keeps brand color in all color-schemes */
+.apply-btn {
+  background-color: #00aaff !important; /* #6f42c1 */
+  border-color: #00aaff !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 14px rgba(93, 93, 93, 0.15) !important;
+  text-transform: none !important;
+}
+
+/* keep the hover state too */
+.apply-btn:hover {
+  background-color: #0099e6 !important; /* or your hover token */
+  border-color: #0099e6 !important;
+}
+
+/* if you want to ensure exact radius/height/padding at CSS level (optional) */
+.apply-btn {
+  border: 1px solid !important;
+  border-radius: 10px !important;
+  height: 2.875rem !important; /* 46px */
+  min-width: 17.75rem !important; /* prevents accidental shrinking */
+  padding: 12px 10px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+}
+
+.save-btn {
+  background-color: #00aaff !important; /* #6f42c1 */
+  border-color: #00aaff !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 14px rgba(93, 93, 93, 0.15) !important;
+  text-transform: none !important;
+  border: 1px solid !important;
+  border-radius: 10px !important;
+  padding: 12px 10px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+}
+
+.draft-btn {
+  background-color: #ffffff !important; /* #6f42c1 */
+  border-color: #222222 !important;
+  color: #222222 !important;
+  box-shadow: 0 0 14px rgba(93, 93, 93, 0.15) !important;
+  text-transform: none !important;
+  border: 2px solid !important;
+  border-radius: 10px !important;
+  padding: 12px 10px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+}
