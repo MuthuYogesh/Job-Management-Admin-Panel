@@ -73,7 +73,7 @@ export default function Filters() {
                 {...field}
                 type="text"
                 placeholder="Search By Job Title, Role"
-                className="pl-10 w-full h-[2.5rem] rounded-md border-none outline-none text-base font-[var(--font-satoshi)] font-satoshi-med text-[var(--font-color1)] placeholder:text-[var(--font-color2)] placeholder:opacity-100 ml-[1.6875rem]"
+                className="pl-10 w-full h-[2.5rem] rounded-md border-none outline-none text-base font-satoshi-med text-[var(--font-color1)] placeholder:text-[var(--font-color2)] placeholder:opacity-100 ml-[1.6875rem]"
                 style={{
                   fontFamily: "var(--font-satoshi)",
                   fontWeight: 500,
@@ -103,7 +103,7 @@ export default function Filters() {
                 type="text"
                 list="location-options"
                 placeholder="Search By Location"
-                className="pl-10 pr-10 w-full h-[2.5rem] rounded-md border-none outline-none text-base font-[var(--font-satoshi)] font-medium text-fontgrey1 placeholder:text-[var(--font-color2)] placeholder:opacity-100 ml-[1.6875rem] custom-datalist-arrow"
+                className="pl-10 pr-10 w-full h-[2.5rem] rounded-md border-none outline-none text-base font-medium text-fontgrey1 placeholder:text-[var(--font-color2)] placeholder:opacity-100 ml-[1.6875rem] custom-datalist-arrow"
                 style={{
                   fontFamily: "var(--font-satoshi)",
                   fontWeight: 500,
@@ -142,7 +142,7 @@ export default function Filters() {
               />
               <select
                 {...field}
-                className="pl-10 pr-10 w-full h-[2.5rem] rounded-md border-none outline-none text-base font-[var(--font-satoshi)] font-medium text-fontgrey1 bg-transparent appearance-none ml-[1.6875rem] custom-datalist-arrow"
+                className="pl-10 pr-10 w-full h-[2.5rem] rounded-md border-none outline-none text-base font-medium text-fontgrey1 bg-transparent appearance-none ml-[1.6875rem] custom-datalist-arrow"
                 style={{
                   fontFamily: "var(--font-satoshi)",
                   fontWeight: 500,
@@ -169,10 +169,10 @@ export default function Filters() {
       {/* Salary Range input */}
       <div className="flex flex-col justify-center align-center">
         <div className=" flex justify-evenly">
-          <span className="text-[var(--font-color1)] font-[var(--font-satoshi)] font-semibold text-base">
+          <span className="text-[var(--font-color1)] font-semibold text-base">
             Salary Per Month
           </span>
-          <span className="text-[var(--font-color1)] font-[var(--font-satoshi)] font-semibold text-base">
+          <span className="text-[var(--font-color1)] font-semibold text-base">
             ₹{salary[0]}k - ₹{salary[1]}k
           </span>
         </div>

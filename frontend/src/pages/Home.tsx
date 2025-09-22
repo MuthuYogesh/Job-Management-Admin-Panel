@@ -1,11 +1,7 @@
-import React from "react";
 import "@mantine/core/styles.css";
-import { Routes, Route } from "react-router-dom";
 import { MantineProvider, AppShell } from "@mantine/core";
 import Navbar from "../components/Navbar";
 import JobGrid from "./JobGrid";
-import CreateJobModal from "../components/CreateJobModal";
-import { JobProvider } from "../context/JobContext";
 
 export default function Home() {
   return (

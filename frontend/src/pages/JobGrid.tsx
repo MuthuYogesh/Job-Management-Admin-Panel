@@ -1,5 +1,4 @@
 // src/pages/JobGrid.tsx
-import React from "react";
 import JobCard from "../components/JobCard";
 import { useJobsContext } from "../context/JobContext";
 

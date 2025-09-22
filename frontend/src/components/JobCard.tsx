@@ -14,13 +14,11 @@ type Props = {
 
 const JobCard: React.FC<Props> = ({ job }) => {
   const {
-    companyLogo,
     title,
     postedAgo = "24h Ago",
     experience = "",
     workType = "",
     salary = "",
-    description = [],
     onApply,
   } = job;
 
