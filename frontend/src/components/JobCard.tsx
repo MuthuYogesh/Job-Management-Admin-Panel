@@ -23,7 +23,6 @@ const JobCard: React.FC<Props> = ({ job }) => {
   } = job;
 
   const company = job._raw?.company || "";
-  console.log(company);
 
   return (
     <div className="w-[19.75rem] h-[22.5rem] bg-white rounded-[0.75rem] shadow-[0_0_14px_rgba(211,211,211,0.15)] flex flex-col p-[1rem] relative">
