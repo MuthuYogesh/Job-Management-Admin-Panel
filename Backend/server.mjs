@@ -14,7 +14,7 @@ const MONGO_URI = process.env.MONGO_URI;
 
 // Middleware
 app.use(cors({
-    origin: process.env.FE_URL || '*',
+    origin: '*',
     methods: ['GET', 'POST'],
 }));
 app.use(express.json());
