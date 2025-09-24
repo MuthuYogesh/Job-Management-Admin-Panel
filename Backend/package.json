@@ -4,8 +4,8 @@
   "type": "module",
   "main": "src/server.mjs",
   "scripts": {
-    "start": "node src/server.mjs",
-    "dev": "nodemon --watch src --ext mjs --exec node src/server.mjs"
+    "start": "node server.mjs",
+    "dev": "nodemon --watch  --ext mjs --exec node server.mjs"
   },
   "dependencies": {
     "cors": "^2.8.5",
