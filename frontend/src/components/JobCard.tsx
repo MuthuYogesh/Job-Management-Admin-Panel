@@ -15,25 +15,25 @@ type Props = {
 const JobCard: React.FC<Props> = ({ job }) => {
   const {
     title,
-    postedAgo = "24h Ago",
-    experience = "",
-    workType = "",
+    companyLogo = logoBrand,
     salary = "",
+    description = [],
     onApply,
   } = job;
 
   const descriptionLines: string[] = React.useMemo(() => {
     if (!job.description) return [];
+    console.log("Job description:", job.description);
 
     // Split by newlines, trim, drop empties
-    const lines = String(job.description)
-      .split(/\r?\n/)
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const lines: string[] = String(job.description).split(".");
 
     // Only take first 2 lines
+    console.log("Line:-> ", lines);
     return lines.slice(0, 2);
   }, [job.description]);
+
+  console.log("experienc:", title);
 
   return (
     <div className="w-[19.75rem] h-[22.5rem] bg-white rounded-[0.75rem] shadow-[0_0_14px_rgba(211,211,211,0.15)] flex flex-col p-[1rem] relative">
@@ -48,39 +48,21 @@ const JobCard: React.FC<Props> = ({ job }) => {
              rounded-[13.1786px]"
         >
           <img
-            src={logoBrand}
+            src={companyLogo || logoBrand}
             alt={title || "company logo"}
             className="w-[4.118125rem] h-[4.118125rem] rounded-full"
           />
         </div>
 
         {/* Badge */}
-        <Badge
-          className="absolute left-[222px] top-[16px] 
-             flex flex-row items-center justify-center 
-             w-[75px] h-[33px] 
-             px-[10px] py-[7px] 
-             rounded-[10px] bg-[#B0D9FF] normal-case"
-          styles={
-            {
-              root: {
-                boxShadow: "none",
-                background: "#B0D9FF",
-                borderRadius: "10px",
-                width: "4.6875rem",
-                height: "2.0625rem",
-                color: "#000000",
-                fontFamily: "Satoshi",
-                fontSize: "14px",
-                fontWeight: "500",
-                textTransform: "none",
-                overflow: "none",
-              },
-            } as any
-          }
+        <div
+          className="absolute left-[222px] top-[16px] w-[75px] h-[33px]
+             flex items-center justify-center px-[10px] py-[7px]
+             bg-[#B0D9FF] text-black rounded-[10px]
+             normal-case overflow-visible font-satoshi font-satoshi-med text-[14px] shadow-none"
         >
-          {postedAgo}
-        </Badge>
+          <p className="m-0 leading-none">24h Ago</p>
+        </div>
       </div>
 
       {/* Title */}
@@ -90,13 +72,13 @@ const JobCard: React.FC<Props> = ({ job }) => {
 
       {/* Info Row */}
       <div className="flex justify-start items-center mb-[1.25rem] text-[1rem] font-satoshi-med text-fontgrey2 gap-[1rem]">
-        <span className="flex items-center gap-[4px] ">
+        <span className="flex items-center justify-center gap-[4px] ">
           <img
             src={expLogo}
             alt="experience"
             className="w-[1.13625rem] h-[1.25rem]"
           />
-          {experience}
+          <p className="max-w-[72px] max-h-[22px] text-[16px]">1-3 yr Exp</p>
         </span>
         <span className="flex items-center gap-[4px]">
           <img
@@ -104,7 +86,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
             alt="work type"
             className="w-[1.1875rem] h-[1.025625rem]"
           />
-          {workType}
+          <p className="max-w-[72px] max-h-[22px] text-[16px]">Onsite</p>
         </span>
         <span className="flex items-center gap-[4px]">
           <img
@@ -119,7 +101,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
       {/* Description */}
       <div className="mb-[1.25rem] mt-0 w-[18.75rem] h-[4.75rem] text-overflow: ellipsis; white-space: nowrap;">
         <ul className="leading-tight list-disc pl-5 text-[0.875rem] text-[#555555]">
-          {descriptionLines.map((d, i) => (
+          {description.map((d, i) => (
             <li key={i}>{d}</li>
           ))}
         </ul>
@@ -131,7 +113,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
              flex items-center justify-center
              w-[17.75rem] h-[2.875rem]
              text-white text-base font-semibold normal-case
-             rounded-[10px] transition pl-[10px] pr-[10px] pt-[12px] pb-[12px]"
+             transition pl-[10px] pr-[10px] pt-[12px] pb-[12px]"
         onClick={() =>
           typeof onApply === "function"
             ? onApply()

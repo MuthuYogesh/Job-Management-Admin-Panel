@@ -48,8 +48,8 @@ const JobContext = createContext<JobContextType | undefined>(undefined);
 /** Convert backend number -> display "k" format (used when formatting UI salary) */
 function formatK(n?: number | null) {
   if (n === undefined || n === null || Number.isNaN(n)) return "";
-  const v = Math.round(Number(n) / 10000); // matches your earlier formatK
-  return `${v}k`;
+  const v = Math.round(Number(n) / 100000); // matches your earlier formatK
+  return `${v}LPA`;
 }
 
 function humanizePostedAgo(isoDate?: string | Date | null) {
@@ -75,6 +75,10 @@ function deriveCompanyLogo(company?: string | null) {
     .replace(/[^a-z0-9]/g, "")
     .slice(0, 30);
   if (!domainCandidate) return null;
+  console.log("deriveCompanyLogo for", company, "->", domainCandidate);
+  if (domainCandidate === "amazon") return "./src/assets/amazon.svg";
+  if (domainCandidate === "swiggy") return "./src/assets/swiggy.svg";
+  if (domainCandidate === "tesla") return "./src/assets/tesla.svg";
   return `https://logo.clearbit.com/${domainCandidate}.com`;
 }
 
@@ -147,7 +151,7 @@ export function JobProvider({ children }: { children: ReactNode }) {
       ? envUrl.startsWith("http")
         ? envUrl.replace(/\/$/, "")
         : `http://${envUrl.replace(/\/$/, "")}`
-      : "http://localhost:5000";
+      : "https://job-management-admin-panel-1.onrender.com/";
 
     // Per your instruction the API endpoint is the root (baseHost) + query params.
     const endpoint = `${baseHost}`; // e.g. http://localhost:5000
@@ -175,13 +179,23 @@ export function JobProvider({ children }: { children: ReactNode }) {
         (res.data as BackendJob[] | undefined) ??
         [];
 
+      backendJobs.sort((a, b) => {
+        if (a.createdAt < b.createdAt) {
+          return -1;
+        }
+        if (a.createdAt > b.createdAt) {
+          return 1;
+        }
+        return 0;
+      });
+
       // Map backend job -> UIJob
       const uiJobs: UIJob[] = backendJobs.map((b) => {
         const id = (b as any)._id ?? (b as any).id ?? String(Math.random());
 
         let salaryStr = "";
         if (b.salaryMin != null && b.salaryMax != null) {
-          salaryStr = `₹${formatK(b.salaryMin)} - ₹${formatK(b.salaryMax)}`;
+          salaryStr = `₹${formatK(b.salaryMax)}`;
         } else if (b.salaryMin != null) {
           salaryStr = `₹${formatK(b.salaryMin)}`;
         } else if (b.salaryMax != null) {

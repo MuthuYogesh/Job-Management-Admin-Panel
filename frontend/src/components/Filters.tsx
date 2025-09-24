@@ -56,9 +56,9 @@ export default function Filters() {
   const salary = filterValues.salary;
 
   return (
-    <form className="w-[1440px] h-auto flex items-center mt-[2.4375rem]">
+    <form className="w-[1440px] h-auto flex items-center">
       {/* Search input */}
-      <div className="w-[20.875rem] h-[3rem] ml-[4rem] flex items-center justify-center border-r-2 border-light-grey">
+      <div className="w-[20.875rem] h-[3rem] ml-[4rem]  mt-[2.4375rem] flex items-center justify-center border-r-2 border-light-grey">
         <Controller
           control={control}
           name="query"
@@ -67,13 +67,13 @@ export default function Filters() {
               <img
                 src={searchIcon}
                 alt="search"
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-[1.125rem] h-[1.125rem]"
+                className="absolute left-0 top-1/2 -translate-y-1/2 w-[1.125rem] h-[1.125rem]"
               />
               <input
                 {...field}
                 type="text"
                 placeholder="Search By Job Title, Role"
-                className="pl-10 w-full h-[2.5rem] rounded-md border-none outline-none text-base font-satoshi-med text-[var(--font-color1)] placeholder:text-[var(--font-color2)] placeholder:opacity-100 ml-[1.6875rem]"
+                className="w-full h-[2.5rem] rounded-md border-none outline-none text-base font-satoshi-med text-[var(--font-color1)] placeholder:text-[var(--font-color2)] placeholder:opacity-100 ml-[45px]"
                 style={{
                   fontFamily: "var(--font-satoshi)",
                   fontWeight: 500,
@@ -87,7 +87,7 @@ export default function Filters() {
       </div>
 
       {/* Location input */}
-      <div className="w-[20.875rem] h-[3rem] flex items-center justify-center border-r-2 border-light-grey">
+      <div className="w-[20.875rem] h-[3rem]  mt-[2.4375rem] flex items-center justify-center border-r-2 border-light-grey">
         <Controller
           control={control}
           name="location"
@@ -96,14 +96,14 @@ export default function Filters() {
               <img
                 src={locationIcon}
                 alt="location"
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-[1rem] h-[1.313125rem]"
+                className="absolute left-[24px] top-1/2 -translate-y-1/2 w-[1rem] h-[1.313125rem]"
               />
               <input
                 {...field}
                 type="text"
                 list="location-options"
                 placeholder="Search By Location"
-                className="pl-10 pr-10 w-full h-[2.5rem] rounded-md border-none outline-none text-base font-medium text-fontgrey1 placeholder:text-[var(--font-color2)] placeholder:opacity-100 ml-[1.6875rem] custom-datalist-arrow"
+                className="w-full h-[2.5rem] rounded-md border-none outline-none text-base font-medium text-fontgrey1 placeholder:text-[var(--font-color2)] placeholder:opacity-100 ml-[67px] custom-datalist-arrow"
                 style={{
                   fontFamily: "var(--font-satoshi)",
                   fontWeight: 500,
@@ -114,7 +114,7 @@ export default function Filters() {
               <img
                 src={downIcon}
                 alt="dropdown"
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-[1.5rem] h-[1.5rem] pointer-events-none hover:cursor-pointer"
+                className="absolute right-[37px] top-1/2 -translate-y-1/2 w-[1.5rem] h-[1.5rem] pointer-events-none hover:cursor-pointer"
               />
               <datalist id="location-options">
                 <option value="Remote" />
@@ -129,7 +129,7 @@ export default function Filters() {
       </div>
 
       {/* Job Type input */}
-      <div className="w-[20.875rem] h-[3rem] flex items-center justify-center border-r-2 border-light-grey">
+      <div className="w-[20.875rem] h-[3rem]  mt-[2.4375rem] flex items-center justify-center border-r-2 border-light-grey">
         <Controller
           control={control}
           name="jobType"
@@ -138,11 +138,11 @@ export default function Filters() {
               <img
                 src={JobIcon}
                 alt="job type"
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-[1rem] h-[1.313125rem]"
+                className="absolute left-[31px] top-1/2 -translate-y-1/2 w-[1rem] h-[1.313125rem]"
               />
               <select
                 {...field}
-                className="pl-10 pr-10 w-full h-[2.5rem] rounded-md border-none outline-none text-base font-medium text-fontgrey1 bg-transparent appearance-none ml-[1.6875rem] custom-datalist-arrow"
+                className="pr-10 w-full h-[2.5rem] rounded-md border-none outline-none text-base font-medium text-fontgrey1 bg-transparent appearance-none ml-[74px] custom-datalist-arrow"
                 style={{
                   fontFamily: "var(--font-satoshi)",
                   fontWeight: 500,
@@ -159,7 +159,7 @@ export default function Filters() {
               <img
                 src={downIcon}
                 alt="dropdown"
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-[1.5rem] h-[1.5rem] pointer-events-none hover:cursor-pointer"
+                className="absolute right-[30px] top-1/2 -translate-y-1/2 w-[1.5rem] h-[1.5rem] pointer-events-none hover:cursor-pointer"
               />
             </div>
           )}
@@ -167,7 +167,7 @@ export default function Filters() {
       </div>
 
       {/* Salary Range input */}
-      <div className="flex flex-col justify-center align-center">
+      <div className="flex flex-col justify-center align-center  mt-[2.4375rem]">
         <div className=" flex justify-evenly">
           <span className="text-[var(--font-color1)] font-semibold text-base">
             Salary Per Month

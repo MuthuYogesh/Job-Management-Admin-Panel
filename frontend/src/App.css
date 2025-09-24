@@ -31,6 +31,10 @@
   --font-color3: #5a5a5a;
 }
 
+body {
+  font-family: var(--font-satoshi) !important;
+}
+
 /* Hide default datalist arrow in Chrome, Edge, Safari */
 .custom-datalist-arrow::-webkit-calendar-picker-indicator {
   opacity: 0;
@@ -72,7 +76,7 @@
 
 /* if you want to ensure exact radius/height/padding at CSS level (optional) */
 .apply-btn {
-  border: 1px solid !important;
+  border: 1px solid #00aaff !important;
   border-radius: 10px !important;
   height: 2.875rem !important; /* 46px */
   min-width: 17.75rem !important; /* prevents accidental shrinking */
@@ -111,4 +115,31 @@
   align-items: center !important;
   justify-content: center !important;
   white-space: nowrap !important;
+}
+
+.custom-input::placeholder {
+  color: #bcbcbc;
+  opacity: 1;
+}
+.custom-input:focus::placeholder {
+  color: #222222;
+}
+
+select option {
+  color: #222222; /* normal options */
+}
+
+select option[value=""] {
+  color: #bcbcbc; /* placeholder option */
+}
+
+.list-btn {
+  border-radius: 0 !important;
+  background-color: #ffffff !important;
+  border: none !important;
+}
+
+.list-btn:hover {
+  border: none !important;
+  background-color: #f1f1f1 !important;
 }

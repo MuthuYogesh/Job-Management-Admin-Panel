@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import down from "../assets/down.svg";
+import downSharp from "../assets/downSharp.svg";
 import dArrowRight from "../assets/darrowright.svg";
 import dArrowDown from "../assets/darrowdown.svg";
+import CustomSelect from "./CustomSelect";
+import calender from "../assets/calender.svg";
 
 type FormValues = {
   title: string;
@@ -23,7 +25,7 @@ type FormValues = {
 export default function CreateJobModal() {
   const navigate = useNavigate();
 
-  const { register, handleSubmit, formState, watch, reset } =
+  const { register, handleSubmit, formState, watch, reset, control, setValue } =
     useForm<FormValues>({
       defaultValues: {
         title: "",
@@ -64,6 +66,46 @@ export default function CreateJobModal() {
     return "#BCBCBC";
   };
 
+  const watchedValues = watch(); // returns current values, updates on change
+
+  // helper: returns true if the field has a non-empty value
+  const hasValue = (name: keyof FormValues) => {
+    const v = watchedValues?.[name];
+    if (v === undefined || v === null) return false;
+    const s = String(v).trim();
+    return s !== "";
+  };
+
+  // fields grouped for Salary Range
+  const salaryFieldNames: Array<keyof FormValues> = ["salaryMin", "salaryMax"];
+
+  // returns true if any of the salary fields has a non-empty value
+  const salaryHasValue = () => salaryFieldNames.some((n) => hasValue(n));
+
+  // returns true if any of the salary fields is currently focused
+  const salaryIsFocused = () =>
+    salaryFieldNames.some((n) => focusedField === n);
+
+  // combined color decision for Salary Range label
+  const salaryLabelColor = () => {
+    if (salaryIsFocused()) return "#222222";
+    if (salaryHasValue()) return "#222222";
+    return "#636363";
+  };
+
+  const salaryPlaceholderColor = (name: keyof FormValues) => {
+    if (focusedField === name) return "#222222";
+    if (hasValue(name)) return "#222222";
+    return "#BCBCBC";
+  };
+
+  // label color: slightly different default than border, but active color same
+  const labelColorFor = (name: keyof FormValues) => {
+    if (focusedField === name) return "#222222";
+    if (hasValue(name)) return "#222222";
+    return "#636363"; // your default label color from earlier code
+  };
+
   const wrapperStyleFor = (name: keyof FormValues) => ({
     borderColor: borderColorFor(name),
   });
@@ -82,26 +124,13 @@ export default function CreateJobModal() {
   const mapJobType = (v?: string): string | undefined => {
     if (!v) return undefined;
     const s = v.trim().toLowerCase();
-    if (
-      [
-        "full-time",
-        "full time",
-        "fulltime",
-        "fulltime",
-        "full",
-        "fulltime",
-      ].includes(s) ||
-      s === "fulltime"
-    )
+    if (["full-time", "full time", "fulltime", "full"].includes(s))
       return "Full-time";
     if (["part-time", "part time", "parttime", "part"].includes(s))
       return "Part-time";
-    if (["contract"].includes(s)) return "Contract";
+    if (s === "contract") return "Contract";
     if (["internship", "intern"].includes(s)) return "Internship";
     if (["freelance", "contractor", "gig"].includes(s)) return "Freelance";
-    // Some of your select values are "FullTime" / "PartTime" — check those explicitly
-    if (s === "fulltime") return "Full-time";
-    if (s === "parttime") return "Part-time";
     return undefined;
   };
 
@@ -140,7 +169,7 @@ export default function CreateJobModal() {
         ? envUrl
         : envUrl
         ? `http://${envUrl}`
-        : "http://localhost:5000/";
+        : "https://job-management-admin-panel-1.onrender.com/";
 
       console.log("Submitting normalized payload:", payload, "to", finalUrl);
 
@@ -220,7 +249,10 @@ export default function CreateJobModal() {
           {/* Top row: Job Title & Company */}
           <div className="flex justify-center gap-[1rem]">
             <div className="w-[376px]">
-              <label className="block text-[20px] font-satoshi-bold text-[#222222] mb-[6px]">
+              <label
+                className="block text-[20px] font-satoshi-bold text-[#636363] mb-[6px]"
+                style={{ color: labelColorFor("title") }}
+              >
                 Job Title
               </label>
               <div
@@ -238,7 +270,10 @@ export default function CreateJobModal() {
             </div>
 
             <div className="w-[376px]">
-              <label className="block text-[20px] font-satoshi-bold text-[#222222] mb-[6px]">
+              <label
+                className="block text-[20px] font-satoshi-bold text-[#636363] mb-[6px]"
+                style={{ color: labelColorFor("company") }}
+              >
                 Company Name
               </label>
               <div
@@ -259,7 +294,10 @@ export default function CreateJobModal() {
           <div className="flex justify-center gap-[1rem] mt-[1rem]">
             {/* Location */}
             <div className="w-[376px]">
-              <label className="block text-[20px] font-[600] text-[#636363] mb-2">
+              <label
+                className="block text-[20px] font-[600] text-[#636363] mb-2"
+                style={{ color: labelColorFor("location") }}
+              >
                 Location
               </label>
               <div
@@ -270,8 +308,7 @@ export default function CreateJobModal() {
                   {...register("location")}
                   list="location-options"
                   placeholder="Choose Preferred Location"
-                  style={{ color: "#222222" }}
-                  className="w-full h-full px-[1rem] pr-10 text-[16px] font-satoshi-med appearance-none bg-transparent outline-none custom-datalist-arrow placeholder:text-[#BCBCBC]"
+                  className="custom-input w-full h-full px-[1rem] pr-10 text-[16px] font-satoshi-med appearance-none bg-transparent outline-none custom-datalist-arrow placeholder:text-[#BCBCBC]"
                   onFocus={() => setFocusedField("location")}
                   onBlur={() => setFocusedField(null)}
                 />
@@ -281,7 +318,7 @@ export default function CreateJobModal() {
                   <option value="Delhi" />
                 </datalist>
                 <img
-                  src={down}
+                  src={downSharp}
                   alt="dropdown arrow"
                   className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none"
                 />
@@ -290,27 +327,31 @@ export default function CreateJobModal() {
 
             {/* Job Type */}
             <div className="w-[376px]">
-              <label className="block text-[20px] font-[600] text-[#636363] mb-[6px]">
+              <label
+                className="block text-[20px] font-[600] mb-[6px]"
+                style={{ color: labelColorFor("jobType") }}
+              >
                 Job Type
               </label>
               <div
                 className="h-[58px] bg-white border rounded-[10px]"
                 style={wrapperStyleFor("jobType")}
               >
-                <select
-                  {...register("jobType")}
-                  className="w-full h-full px-4 pr-10 text-[18px] font-[600] appearance-none bg-transparent outline-none placeholder-[#BCBCBC]"
+                <CustomSelect
+                  options={[
+                    { value: "Internship", label: "Internship" },
+                    { value: "FullTime", label: "Full Time" },
+                    { value: "PartTime", label: "Partime" },
+                    { value: "Contract", label: "Contract" },
+                  ]}
+                  value={watch("jobType") || ""}
+                  onChange={(v) => {
+                    setValue("jobType", v, { shouldDirty: true });
+                  }}
+                  placeholder="Select Job Type"
                   onFocus={() => setFocusedField("jobType")}
                   onBlur={() => setFocusedField(null)}
-                >
-                  <option value="" className="text-[#BCBCBC]">
-                    Select Job Type
-                  </option>
-                  <option value="FullTime">FullTime</option>
-                  <option value="PartTime">PartTime</option>
-                  <option value="Contract">Contract</option>
-                  <option value="Internship">Internship</option>
-                </select>
+                />
               </div>
             </div>
           </div>
@@ -318,30 +359,74 @@ export default function CreateJobModal() {
           <div className="flex justify-center gap-[1rem] mt-[1rem]">
             {/* Salary Range */}
             <div className="w-[376px]">
-              <label className="block text-[20px] font-[600] text-[#636363] mb-2">
+              <label
+                className="block text-[20px] font-[600] text-[#636363] mb-2"
+                style={{ color: salaryLabelColor() }}
+              >
                 Salary Range
               </label>
+
               <div className="flex gap-2">
                 <div
-                  className="w-1/2 h-[58px] border rounded-[10px]"
+                  className="w-1/2 h-[58px] border rounded-[10px] flex items-center"
                   style={wrapperStyleFor("salaryMin")}
                 >
+                  <span
+                    className="pointer-events-none ml-[1rem]"
+                    aria-hidden="true"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7 12L4 15M4 15L1 12M4 15V1M9 4L12 1M12 1L15 4M12 1V15"
+                        stroke={salaryPlaceholderColor("salaryMin")} // <-- dynamic color here
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
                   <input
                     {...register("salaryMin")}
                     placeholder="₹0"
-                    className="w-full h-full px-[1rem] outline-none placeholder:text-[#BCBCBC]"
+                    className="w-full h-full px-[4px] outline-none placeholder:text-[#BCBCBC]"
                     onFocus={() => setFocusedField("salaryMin")}
                     onBlur={() => setFocusedField(null)}
                   />
                 </div>
                 <div
-                  className="w-1/2 h-[58px] border rounded-[10px]"
+                  className="w-1/2 h-[58px] border rounded-[10px] flex items-center"
                   style={wrapperStyleFor("salaryMax")}
                 >
+                  <span
+                    className="pointer-events-none ml-[1rem]"
+                    aria-hidden="true"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7 12L4 15M4 15L1 12M4 15V1M9 4L12 1M12 1L15 4M12 1V15"
+                        stroke={salaryPlaceholderColor("salaryMax")}
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
                   <input
                     {...register("salaryMax")}
                     placeholder="₹12,00,000"
-                    className="w-full h-full px-[1rem] outline-none placeholder:text-[#BCBCBC]"
+                    className="w-full h-full px-[4px] outline-none placeholder:text-[#BCBCBC]"
                     onFocus={() => setFocusedField("salaryMax")}
                     onBlur={() => setFocusedField(null)}
                   />
@@ -351,40 +436,121 @@ export default function CreateJobModal() {
 
             {/* Application Deadline */}
             <div className="w-[376px]">
-              <label className="block text-[20px] font-[600] text-[#636363] mb-2">
+              <label
+                className="block text-[20px] font-[600] text-[#636363] mb-2"
+                style={{ color: labelColorFor("deadline") }}
+              >
                 Application Deadline
               </label>
               <div
-                className="h-[58px] bg-white border rounded-[10px]"
+                className="relative h-[58px] bg-white border rounded-[10px]"
                 style={wrapperStyleFor("deadline")}
               >
+                {/* White overlay to hide native mm/dd/yyyy placeholder */}
+                <div className="absolute left-[10px] top-1/2 -translate-y-1/2 w-[200px] h-[40px] bg-white pointer-events-none"></div>
+
                 <input
                   {...register("deadline")}
                   type="date"
-                  className="w-full h-full border-0 px-3 outline-none date-input-no-placeholder"
+                  className="w-full h-full border-0 pl-3 pr-10 outline-none"
                   onFocus={() => setFocusedField("deadline")}
                   onBlur={() => setFocusedField(null)}
                 />
+
+                {/* Custom calendar icon (click passes through to native indicator) */}
+                <img
+                  src={calender}
+                  alt="calendar"
+                  className="absolute right-[20px] top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none"
+                />
+
+                {/* Style native calendar picker so it's invisible but still clickable */}
+                <style>{`
+                  input[type="date"]::-webkit-calendar-picker-indicator {
+                    opacity: 0;
+                    position: absolute;
+                    right: 12px;
+                    width: 20px;
+                    height: 20px;
+                    cursor: pointer;
+                  }
+                `}</style>
               </div>
             </div>
           </div>
 
           {/* Job Description */}
           <div className="w-[768px] mt-[1rem]">
-            <label className="block text-[20px] font-[600] text-[#636363] mb-[6px]">
+            <label
+              className="block text-[20px] font-[600] text-[#636363] mb-[6px]"
+              style={{ color: labelColorFor("description") }}
+            >
               Job Description
             </label>
+
+            {/* wrapper must be relative so overlay can be positioned */}
             <div
               className="border rounded-[10px]"
               style={wrapperStyleFor("description")}
             >
-              <textarea
-                {...register("description")}
-                placeholder="Please share a description to let the candidate know more about the job role"
-                className="w-full h-[169px] p-4 text-[16px] resize-none outline-none border-0 placeholder-[#BCBCBC]"
-                onFocus={() => setFocusedField("description")}
-                onBlur={() => setFocusedField(null)}
-              />
+              <div className="relative">
+                <textarea
+                  {...register("description")}
+                  placeholder="Please share a description to let the candidate know more about the job role"
+                  className="w-full h-[169px] p-4 pr-10 text-[16px] resize-y outline-none border-0 placeholder-[#BCBCBC]"
+                  onFocus={() => setFocusedField("description")}
+                  onBlur={() => setFocusedField(null)}
+                />
+
+                {/* Custom resize handle (visual only). pointer-events-none lets pointer go to textarea */}
+                <div className="absolute bottom-2 right-2 w-6 h-6 pointer-events-none flex items-center justify-center">
+                  <svg
+                    width="23"
+                    height="23"
+                    viewBox="0 0 23 23"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-[#BCBCBC]"
+                  >
+                    <path
+                      d="M1 16.5564L16.5563 1.00005"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M5.94971 17.2634L17.2634 5.94972"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M10.8994 17.9707L17.9705 10.8996"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </div>
+
+                {/* Hide WebKit resizer but keep it functional; also try to neutralize Firefox resizer.
+          These rules are scoped to this textarea instance via the id (if you need multiple textareas,
+          give unique ids or move rules to global CSS). */}
+                <style>{`
+        /* Chrome, Edge, Safari */
+        textarea::-webkit-resizer {
+          display: none;
+        }
+        /* Firefox (best-effort) */
+        textarea::-moz-resizer {
+          display: none;
+        }
+        /* keep mobile tap highlight off for cleaner UI */
+        textarea {
+          -webkit-tap-highlight-color: transparent;
+        }
+      `}</style>
+              </div>
             </div>
           </div>
 
