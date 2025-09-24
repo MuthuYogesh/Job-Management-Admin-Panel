@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 
-import jobRoutes from "./routes/jobRoutes.mjs";
+import jobRoutes from "./src/routes/jobRoutes.mjs";
 
 dotenv.config();
 
