@@ -17,7 +17,14 @@ export default function JobsGrid() {
           ))
         ) : (
           <div className="col-span-1 sm:col-span-2 lg:col-span-4 text-center py-10 text-gray-500">
-            No jobs found
+            <p>
+              Since the backend is currently hosted on Render’s free tier, the
+              server may spin down when idle.
+            </p>
+            <p>
+              As a result, if the website is opened after a long time, the
+              initial data load may take slightly longer.
+            </p>
           </div>
         )}
       </div>
