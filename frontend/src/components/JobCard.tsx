@@ -5,6 +5,9 @@ import wrkType from "../assets/workType.svg";
 import packageLogo from "../assets/package.svg";
 import logoBrand from "../assets/logoBrand.png";
 import type { UIJob } from "../context/JobContext";
+import swiggy from "../assets/swiggy.svg";
+import amazon from "../assets/amazon.svg";
+import tesla from "../assets/tesla.svg";
 
 type Props = {
   job: UIJob;
@@ -19,6 +22,9 @@ const JobCard: React.FC<Props> = ({ job }) => {
     onApply,
   } = job;
 
+  const company = job._raw?.company || "";
+  console.log(company);
+
   return (
     <div className="w-[19.75rem] h-[22.5rem] bg-white rounded-[0.75rem] shadow-[0_0_14px_rgba(211,211,211,0.15)] flex flex-col p-[1rem] relative">
       <div className="flex items-center justify-between">
@@ -32,7 +38,15 @@ const JobCard: React.FC<Props> = ({ job }) => {
              rounded-[13.1786px]"
         >
           <img
-            src={companyLogo || logoBrand}
+            src={
+              company === "Amazon"
+                ? amazon
+                : company === "Swiggy"
+                ? swiggy
+                : company === "Tesla"
+                ? tesla
+                : companyLogo || logoBrand
+            }
             alt={title || "company logo"}
             className="w-[4.118125rem] h-[4.118125rem] rounded-full"
           />
