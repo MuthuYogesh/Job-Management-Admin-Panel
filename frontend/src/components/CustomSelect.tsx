@@ -52,7 +52,6 @@ export default function CustomSelect({
     const ctrl = controlRef.current;
     if (!ctrl) return;
     const rect = ctrl.getBoundingClientRect();
-    const docEl = document.documentElement;
     // position the top just below the control (+9px gap like you used earlier)
     const top = rect.bottom + 9 + window.scrollY;
     const left = rect.left + window.scrollX;

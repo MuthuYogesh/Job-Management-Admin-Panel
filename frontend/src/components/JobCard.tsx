@@ -1,6 +1,5 @@
 // src/components/JobCard.tsx
 import React from "react";
-import { Badge } from "@mantine/core";
 import expLogo from "../assets/expLogo.svg";
 import wrkType from "../assets/workType.svg";
 import packageLogo from "../assets/package.svg";
@@ -9,7 +8,6 @@ import type { UIJob } from "../context/JobContext";
 
 type Props = {
   job: UIJob;
-  // optionally: onApply?: (jobId: string) => void
 };
 
 const JobCard: React.FC<Props> = ({ job }) => {
@@ -20,20 +18,6 @@ const JobCard: React.FC<Props> = ({ job }) => {
     description = [],
     onApply,
   } = job;
-
-  const descriptionLines: string[] = React.useMemo(() => {
-    if (!job.description) return [];
-    console.log("Job description:", job.description);
-
-    // Split by newlines, trim, drop empties
-    const lines: string[] = String(job.description).split(".");
-
-    // Only take first 2 lines
-    console.log("Line:-> ", lines);
-    return lines.slice(0, 2);
-  }, [job.description]);
-
-  console.log("experienc:", title);
 
   return (
     <div className="w-[19.75rem] h-[22.5rem] bg-white rounded-[0.75rem] shadow-[0_0_14px_rgba(211,211,211,0.15)] flex flex-col p-[1rem] relative">

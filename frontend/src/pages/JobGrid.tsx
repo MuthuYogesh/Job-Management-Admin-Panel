@@ -4,7 +4,6 @@ import { useJobsContext } from "../context/JobContext";
 
 export default function JobsGrid() {
   const { jobs } = useJobsContext();
-  console.log("Rendering JobGrid with jobs:", jobs);
 
   // only take first 8 (2 rows * 4 cols)
   const visibleJobs = jobs.slice(0, 8);

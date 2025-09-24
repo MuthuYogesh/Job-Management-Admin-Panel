@@ -22,12 +22,9 @@ export default function Filters() {
     defaultValues: filters,
   });
 
-  // keep watch so UI shows live changes; when user types we update context filters directly (debounce in provider)
   const filterValues = watch();
 
   React.useEffect(() => {
-    // update context filters whenever controlled form values change
-    // small guard to avoid unnecessary updates: merge only if changed
     setFilters((prev) => {
       // shallow compare relevant fields
       const same =

@@ -2,9 +2,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import axios from "axios";
-import type { Job as BackendJob } from "../types/job"; // backend job type
+import type { Job as BackendJob } from "../types/job";
 
-// UI shape expected by JobCard
+// UI shape
 export type UIJob = {
   id: string;
   _id?: string;
@@ -14,20 +14,20 @@ export type UIJob = {
   experience: string;
   workType: string;
   salary: string;
-  description: string[]; // up to 2 lines
+  description: string[];
   onApply: () => void;
-  _raw: BackendJob; // original backend doc
+  _raw: BackendJob;
 };
 
 type Filters = {
   query: string;
   location: string;
   jobType: string;
-  salary: [number, number]; // values in "k" units (0..200)
+  salary: [number, number];
 };
 
 type JobContextType = {
-  jobs: UIJob[]; // always an array of UIJob
+  jobs: UIJob[];
   loading: boolean;
   error: string | null;
   filters: Filters;
@@ -45,10 +45,10 @@ const DEFAULT_FILTERS: Filters = {
 
 const JobContext = createContext<JobContextType | undefined>(undefined);
 
-/** Convert backend number -> display "k" format (used when formatting UI salary) */
+/** Convert backend number -> display "LPA" format (used when formatting UI salary) */
 function formatK(n?: number | null) {
   if (n === undefined || n === null || Number.isNaN(n)) return "";
-  const v = Math.round(Number(n) / 100000); // matches your earlier formatK
+  const v = Math.round(Number(n) / 100000);
   return `${v}LPA`;
 }
 
@@ -75,7 +75,6 @@ function deriveCompanyLogo(company?: string | null) {
     .replace(/[^a-z0-9]/g, "")
     .slice(0, 30);
   if (!domainCandidate) return null;
-  console.log("deriveCompanyLogo for", company, "->", domainCandidate);
   if (domainCandidate === "amazon") return "./src/assets/amazon.svg";
   if (domainCandidate === "swiggy") return "./src/assets/swiggy.svg";
   if (domainCandidate === "tesla") return "./src/assets/tesla.svg";
@@ -145,7 +144,7 @@ export function JobProvider({ children }: { children: ReactNode }) {
     const salaryMinRaw = Math.max(0, Math.round(salaryKMin * 10000));
     const salaryMaxRaw = Math.max(0, Math.round(salaryKMax * 10000));
 
-    // Base host: VITE_API_URL (if present) or default to http://localhost:5000
+    // Base host
     const envUrl = (import.meta.env.VITE_API_URL as string | undefined) ?? "";
     const baseHost = envUrl
       ? envUrl.startsWith("http")
@@ -154,7 +153,7 @@ export function JobProvider({ children }: { children: ReactNode }) {
       : "https://job-management-admin-panel-1.onrender.com/";
 
     // Per your instruction the API endpoint is the root (baseHost) + query params.
-    const endpoint = `${baseHost}`; // e.g. http://localhost:5000
+    const endpoint = `${baseHost}`;
 
     const params: Record<string, string | number> = {};
     if (q) params.q = q;
@@ -163,10 +162,6 @@ export function JobProvider({ children }: { children: ReactNode }) {
     // include raw numbers expected by backend
     params.salaryMin = salaryMinRaw;
     params.salaryMax = salaryMaxRaw;
-
-    // DEBUG: log what we are sending to the server — inspect Network tab too
-    // Remove this console.log in production.
-    console.log("fetchJobs -> sending params:", params, "to", endpoint);
 
     setLoading(true);
     setError(null);

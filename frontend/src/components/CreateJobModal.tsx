@@ -25,7 +25,7 @@ type FormValues = {
 export default function CreateJobModal() {
   const navigate = useNavigate();
 
-  const { register, handleSubmit, formState, watch, reset, control, setValue } =
+  const { register, handleSubmit, formState, watch, reset, setValue } =
     useForm<FormValues>({
       defaultValues: {
         title: "",
@@ -40,7 +40,6 @@ export default function CreateJobModal() {
       mode: "onChange",
     });
 
-  // rerender on value change (dirtyFields updates)
   watch();
 
   const [focusedField, setFocusedField] = useState<keyof FormValues | null>(
@@ -66,9 +65,8 @@ export default function CreateJobModal() {
     return "#BCBCBC";
   };
 
-  const watchedValues = watch(); // returns current values, updates on change
+  const watchedValues = watch();
 
-  // helper: returns true if the field has a non-empty value
   const hasValue = (name: keyof FormValues) => {
     const v = watchedValues?.[name];
     if (v === undefined || v === null) return false;
@@ -103,7 +101,7 @@ export default function CreateJobModal() {
   const labelColorFor = (name: keyof FormValues) => {
     if (focusedField === name) return "#222222";
     if (hasValue(name)) return "#222222";
-    return "#636363"; // your default label color from earlier code
+    return "#636363";
   };
 
   const wrapperStyleFor = (name: keyof FormValues) => ({
@@ -163,15 +161,12 @@ export default function CreateJobModal() {
         if (!Number.isNaN(d.getTime())) payload.deadline = d.toISOString();
       }
 
-      // Use env var if present, else fallback
       const envUrl = import.meta.env.VITE_API_URL as string | undefined;
       const finalUrl = envUrl?.startsWith("http")
         ? envUrl
         : envUrl
         ? `http://${envUrl}`
         : "https://job-management-admin-panel-1.onrender.com/";
-
-      console.log("Submitting normalized payload:", payload, "to", finalUrl);
 
       const res = await axios.post(finalUrl, payload, {
         headers: { "Content-Type": "application/json" },
@@ -229,8 +224,6 @@ export default function CreateJobModal() {
         className="w-[53rem] h-[48.6875rem] mx-auto relative bg-white rounded-[16px] shadow-[0_0_24px_rgba(169,169,169,0.25)] pl-[2.5rem] pr-[2.5rem] pt-[1.875rem] pb-[2.3125rem] overflow-auto"
         style={
           {
-            /* Centered responsively and constrained to viewport height so it never goes off-screen.
-               Note: preserved all existing classes; inline styles only adjust positioning/size. */
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
@@ -384,7 +377,7 @@ export default function CreateJobModal() {
                     >
                       <path
                         d="M7 12L4 15M4 15L1 12M4 15V1M9 4L12 1M12 1L15 4M12 1V15"
-                        stroke={salaryPlaceholderColor("salaryMin")} // <-- dynamic color here
+                        stroke={salaryPlaceholderColor("salaryMin")}
                         strokeWidth="1.5"
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -533,9 +526,6 @@ export default function CreateJobModal() {
                   </svg>
                 </div>
 
-                {/* Hide WebKit resizer but keep it functional; also try to neutralize Firefox resizer.
-          These rules are scoped to this textarea instance via the id (if you need multiple textareas,
-          give unique ids or move rules to global CSS). */}
                 <style>{`
         /* Chrome, Edge, Safari */
         textarea::-webkit-resizer {
